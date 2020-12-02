@@ -219,7 +219,6 @@ exports.getProductById = (req, res, next) => {
 exports.getProductBySubcategory = (req, res, next) => {
   const subcategory = req.params._id;
   Product.find({ subcategory: `${subcategory}`, status: "active" })
-    .sort({ _id: -1 })
     .then((result) => {
       if (!result) {
         const error = new Error("Could not find");
