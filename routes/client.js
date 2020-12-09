@@ -8,8 +8,6 @@ const {
   getProduct,
   getProductById,
   getProductBySubcategory,
-  createCustomer,
-  loginCustomer,
   createCart,
   getCartProductByUserId,
   deleteCartById,
@@ -24,6 +22,7 @@ const {
 
 const Customer = require("../model/customer");
 const { getBrand } = require("../controller/admin");
+const { login, createCustomer } = require("../controller/clientauth");
 const router = express.Router();
 
 //Signup
@@ -43,26 +42,8 @@ router.put(
       })
       .normalizeEmail(),
 
-    body("mobile")
-      .isNumeric()
-      .isLength(10)
-      .withMessage("Please enter valid number.")
-      .custom((value, { req }) => {
-        return Customer.findOne({ mobile: value }).then((userMob) => {
-          if (userMob) {
-            return Promise.reject("Phone number already exist");
-          }
-        });
-      }),
-
-    body("pincode")
-      .trim()
-      .isLength(6)
-      .withMessage("Please enter valid pincode"),
     body("name").trim().not().isEmpty(),
-    body("address").trim().not().isEmpty(),
-    body("city").trim().not().isEmpty(),
-    body("state").trim().not().isEmpty(),
+    body("password").trim().not().isEmpty(),
   ],
   createCustomer
 );
@@ -84,7 +65,7 @@ router.put(
   updateuser
 );
 
-router.post("/login", loginCustomer);
+router.post("/login", login);
 
 //Category
 router.get("/brand", getBrand);
