@@ -36,7 +36,7 @@ router.put(
       .custom((value, { req }) => {
         return Customer.findOne({ email: value }).then((userDoc) => {
           if (userDoc) {
-            return Promise.reject("E-mail already exist");
+            return Promise.reject("EMAIL_EXIST");
           }
         });
       })
