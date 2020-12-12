@@ -4,6 +4,7 @@ const Product = require("../model/product");
 const Customer = require("../model/customer");
 const Order = require("../model/order");
 const Brand = require("../model/brand");
+const Address = require("../model/address");
 const { validationResult } = require("express-validator");
 const Cart = require("../model/cart");
 const jwt = require("jsonwebtoken");
@@ -487,6 +488,54 @@ exports.getBrand = (req, res, next) => {
     })
     .catch((err) => {
       console.log(err);
+      res.json({
+        error: err,
+      });
+    });
+};
+
+// ADD ADDRESS
+
+exports.createAddress = (req, res, next) => {
+  const {
+    userid,
+    name,
+    mobile,
+    pincode,
+    address,
+    locality,
+    district,
+    state,
+  } = req.body;
+
+  Customer.findById(userid)
+    .then((result) => {
+      if (!result) {
+        const error = new Error("Could not find");
+        error.message = "USER_NOT_FOUND";
+        error.statusCode = 404;
+        throw error;
+      }
+
+      const list = new Address({
+        userid: userid,
+        name: name,
+        mobile: mobile,
+        pincode: pincode,
+        address: address,
+        locality: locality,
+        district: district,
+        state: state,
+      });
+
+      return list.save();
+    })
+    .then((result) => {
+      res.status(200).json({
+        data: result,
+      });
+    })
+    .catch((err) => {
       res.json({
         error: err,
       });

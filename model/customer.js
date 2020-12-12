@@ -15,18 +15,12 @@ const customerSchema = new Schema(
     password: {
       type: String,
     },
-    address: {
-      type: String,
-    },
-    pincode: {
-      type: String,
-    },
-    city: {
-      type: String,
-    },
-    state: {
-      type: String,
-    },
+    address: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Address",
+      },
+    ],
     orders: [
       {
         type: Schema.Types.ObjectId,
