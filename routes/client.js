@@ -19,6 +19,7 @@ const {
   getSearchResult,
   getOrdersByUserIdAndUserid,
   createAddress,
+  getUserAddressById,
 } = require("../controller/client");
 
 const Customer = require("../model/customer");
@@ -91,5 +92,6 @@ router.put("/user/:user_id", updateuser);
 router.post("/search", getSearchResult);
 
 router.post("/address", createAddress);
+router.get("/address/:userid", getUserAddressById);
 
 module.exports = router;

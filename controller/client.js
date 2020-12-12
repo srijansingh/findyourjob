@@ -541,3 +541,18 @@ exports.createAddress = (req, res, next) => {
       });
     });
 };
+
+exports.getUserAddressById = (req, res, next) => {
+  const userid = req.params.userid;
+  Address.find({ userid: userid })
+    .then((result) => {
+      res.status(200).json({
+        data: result,
+      });
+    })
+    .catch((err) => {
+      res.json({
+        error: err,
+      });
+    });
+};
