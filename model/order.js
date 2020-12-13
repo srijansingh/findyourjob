@@ -14,7 +14,7 @@ const schema = new Schema(
       require: true,
     },
     items: {
-      type: String,
+      type: Array,
       require: true,
     },
     totalamount: {
