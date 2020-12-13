@@ -323,74 +323,49 @@ exports.deletesingleById = (req, res, next) => {
 
 //Orders
 exports.createOrder = (req, res, next) => {
-  const user = req.body.userid;
-  const referenceid = req.body.referenceid;
-  const totalcost = req.body.totalcost;
-  const data = [];
+  const {
+    userid,
+    orderid,
+    items,
+    totalamount,
+    totalitems,
+    address,
+    date,
+  } = req.body;
+  let response;
+  Customer.findById(userid)
+    .then((result) => {
+      if (!result) {
+        const error = new Error("Could not find");
+        error.statusCode = 404;
+        throw error;
+      }
 
-  Customer.findById(user).then((result) => {
-    const address =
-      result.address +
-      ", " +
-      result.city +
-      ", " +
-      result.state +
-      ", " +
-      result.pincode;
-    const mobile = result.mobile;
-
-    Cart.find({ userid: `${result._id}` })
-      .then((response) => {
-        response.map((list, index) => {
-          const productid = list.productid;
-          const sku = list.sku;
-          const titles = list.title;
-          const imageurls = list.imageurl;
-          const sellingprice = list.sellingprice;
-          const quantity = list.quantity;
-
-          const lists = new Order({
-            userid: user,
-            productid: productid,
-            sku: sku,
-            titles: titles,
-            imageurls: imageurls,
-            sellingprice: sellingprice,
-            quantity: quantity,
-            referenceid: referenceid,
-            totalcost: totalcost,
-            address: address,
-            mobile: mobile,
-          });
-
-          lists.save().then((result) => {
-            console.log(result);
-          });
-        });
-      })
-      .then((result) => {
-        console.log(data);
-
-        client.messages
-          .create({
-            body:
-              "You have recieved new order with Reference ID #" +
-              referenceid +
-              " from " +
-              address +
-              ",   " +
-              mobile,
-            from: "+19564652103",
-            to: "+919461503768",
-          })
-          .then((message) => console.log(" Message " + message.sid));
-
-        res.status(200).json({
-          message: "Order Successfully Placed",
-          data: result,
-        });
+      const list = new Order({
+        userid: userid,
+        orderid: orderid,
+        items: items,
+        totalamount: totalamount,
+        totalitems: totalitems,
+        address: address,
+        date: date,
       });
-  });
+
+      return list.save();
+    })
+    .then((result) => {
+      response = result;
+      return Customer.findById(userid);
+    })
+    .then((result) => {
+      result.orders.push(response);
+      return result.save();
+    })
+    .then((result) => {
+      res.json({
+        data: response,
+      });
+    });
 };
 
 exports.getOrdersByUserId = (req, res, next) => {

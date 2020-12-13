@@ -9,44 +9,27 @@ const schema = new Schema(
       ref: "Customer",
       require: true,
     },
-    productid: {
-      type: Schema.Types.ObjectId,
-      ref: "Product",
-      require: true,
-    },
-    referenceid: {
+    orderid: {
       type: String,
       require: true,
     },
-    totalcost: {
+    items: {
       type: String,
       require: true,
     },
-    sku: {
+    totalamount: {
       type: String,
       require: true,
     },
-    quantity: {
-      type: String,
-      required: true,
-    },
-    sellingprice: {
-      type: String,
-      required: true,
-    },
-    titles: {
-      type: String,
-      require: true,
-    },
-    imageurls: {
-      type: String,
-      require: true,
-    },
-    mobile: {
+    totalitems: {
       type: String,
       require: true,
     },
     address: {
+      type: String,
+      require: true,
+    },
+    date: {
       type: String,
       require: true,
     },
