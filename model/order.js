@@ -26,7 +26,7 @@ const schema = new Schema(
       require: true,
     },
     address: {
-      type: String,
+      type: Object,
       require: true,
     },
     date: {
