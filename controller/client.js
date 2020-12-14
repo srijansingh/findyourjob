@@ -371,8 +371,7 @@ exports.createOrder = (req, res, next) => {
 exports.getOrdersByUserId = (req, res, next) => {
   const userid = req.params.userid;
   Order.find({ userid: `${userid}` })
-    .sort({ referenceid: 1 })
-    .distinct("referenceid")
+    .sort({ _id: -1 })
     .then((result) => {
       if (!result) {
         const error = new Error("Could not find");
@@ -381,6 +380,11 @@ exports.getOrdersByUserId = (req, res, next) => {
       }
       res.status(200).json({
         data: result,
+      });
+    })
+    .catch((err) => {
+      res.json({
+        message: err,
       });
     });
 };
