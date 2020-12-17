@@ -15,10 +15,12 @@ const customerSchema = new Schema(
     password: {
       type: String,
     },
-    notif_token: {
-      type: String,
-      default: null,
-    },
+    notif_token: [
+      {
+        type: String,
+        default: null,
+      },
+    ],
     address: [
       {
         type: Schema.Types.ObjectId,

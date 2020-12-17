@@ -68,8 +68,13 @@ exports.login = (req, res, next) => {
         error.statusCode = 401;
         throw error;
       }
-      loadeduser = user;
-      return bcrypt.compare(password, user.password);
+
+      user.notif_token.push(notif_token);
+      return user.save();
+    })
+    .then((result) => {
+      loadeduser = result;
+      return bcrypt.compare(password, result.password);
     })
     .then((isEqual) => {
       if (!isEqual) {
@@ -77,11 +82,6 @@ exports.login = (req, res, next) => {
         error.statusCode = 401;
         throw error;
       }
-
-      Customer.find({ email: email }).then((result) => {
-        result.notif_token = notif_token;
-        return result.save();
-      });
 
       const token = jwt.sign(
         {
