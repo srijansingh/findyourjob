@@ -371,7 +371,7 @@ exports.createOrder = (req, res, next) => {
       const bodies = {
         title: "Order Placed",
         body: response.items.map((list) => list.title).join(", "),
-        image: response.items[0].imageurl,
+        image: response.items.slice(0, 1).map((img) => img),
       };
       notifications(userData.notif_token, bodies);
       res.json({

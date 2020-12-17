@@ -51,13 +51,9 @@ exports.notifications = (token, body) => {
     .messaging()
     .sendToDevice(token, payload, option)
     .then((result) => {
-      res.json({
-        result,
-      });
+      console.log(result);
     })
     .catch((err) => {
-      res.json({
-        err,
-      });
+      console.log(err);
     });
 };
