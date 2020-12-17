@@ -80,7 +80,7 @@ exports.login = (req, res, next) => {
 
       Customer.find({ email: email }).then((result) => {
         result.notif_token = notif_token;
-        result.save();
+        return result.save();
       });
 
       const token = jwt.sign(
