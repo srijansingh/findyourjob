@@ -25,6 +25,7 @@ const {
 const Customer = require("../model/customer");
 const { getBrand } = require("../controller/admin");
 const { login, createCustomer } = require("../controller/clientauth");
+const { notification } = require("../controller/notification");
 const router = express.Router();
 
 //Signup
@@ -94,4 +95,5 @@ router.post("/search", getSearchResult);
 router.post("/address", createAddress);
 router.get("/address/:userid", getUserAddressById);
 
+router.get("/notification", notification);
 module.exports = router;
