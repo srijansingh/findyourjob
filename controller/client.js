@@ -8,7 +8,7 @@ const Address = require("../model/address");
 const { validationResult } = require("express-validator");
 const Cart = require("../model/cart");
 const jwt = require("jsonwebtoken");
-const { notification } = require("./notification");
+const { notification, notifications } = require("./notification");
 //Signup
 
 //Mesage
@@ -325,8 +325,6 @@ exports.deletesingleById = (req, res, next) => {
 //Orders
 
 exports.createOrder = (req, res, next) => {
-  const token =
-    "dS5H4BYXS5WtoYVcIYNIyk:APA91bHukIRJUvCz0X5vmtCJm7l0qrG6Q7-RAp3jpVD95V-7xi4hfqcXKzi6LmFl5wUBwdgGz3CzYGC0uBu_NnXJCel0K23nsGOiodv0ufIXQjhQBIjG47v1RU6zGEbX4Kz8AOAxXcVl";
   const {
     userid,
     orderid,
@@ -337,6 +335,7 @@ exports.createOrder = (req, res, next) => {
     date,
   } = req.body;
   let response;
+  let userData;
   Customer.findById(userid)
     .then((result) => {
       if (!result) {
@@ -344,6 +343,8 @@ exports.createOrder = (req, res, next) => {
         error.statusCode = 404;
         throw error;
       }
+
+      userData = result;
 
       const list = new Order({
         userid: userid,
@@ -363,10 +364,16 @@ exports.createOrder = (req, res, next) => {
     })
     .then((result) => {
       result.orders.push(response);
-      notification(token);
+
       return result.save();
     })
     .then((result) => {
+      const bodies = {
+        title: "Order Placed",
+        body: response.items.map((list) => list.title).join(", "),
+        image: response.items[0].imageurl,
+      };
+      notifications(userData.notif_token, bodies);
       res.json({
         data: response,
       });

@@ -15,7 +15,7 @@ exports.createCustomer = (req, res, next) => {
     throw error;
   }
 
-  const { email, name, password } = req.body;
+  const { email, name, password, notif_token } = req.body;
   bcrypt
     .hash(password, 12)
     .then((hashPwd) => {
@@ -23,6 +23,7 @@ exports.createCustomer = (req, res, next) => {
         email: email,
         name: name,
         password: hashPwd,
+        notif_token: notif_token,
       });
 
       return user.save();
@@ -59,6 +60,7 @@ exports.createCustomer = (req, res, next) => {
 exports.login = (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
+  const notif_token = req.body.notif_token;
   Customer.findOne({ email: email })
     .then((user) => {
       if (!user) {
@@ -75,6 +77,12 @@ exports.login = (req, res, next) => {
         error.statusCode = 401;
         throw error;
       }
+
+      Customer.find({ email: email }).then((result) => {
+        result.notif_token = notif_token;
+        result.save();
+      });
+
       const token = jwt.sign(
         {
           name: loadeduser.name,
@@ -84,6 +92,7 @@ exports.login = (req, res, next) => {
         "dholpurclientsecretwalasecret",
         { expiresIn: "7 days" }
       );
+
       res.status(200).json({
         token: token,
         userId: loadeduser._id.toString(),

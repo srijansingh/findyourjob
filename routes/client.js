@@ -95,5 +95,5 @@ router.post("/search", getSearchResult);
 router.post("/address", createAddress);
 router.get("/address/:userid", getUserAddressById);
 
-router.get("/notification", notification);
+router.post("/notification", notification);
 module.exports = router;
