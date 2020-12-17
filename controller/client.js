@@ -371,7 +371,7 @@ exports.createOrder = (req, res, next) => {
       const bodies = {
         title: "Order Placed",
         body: response.items.map((list) => list.title).join(", "),
-        image: response.items.slice(0, 1).map((img) => img),
+        image: "https://techronx.com/images/logo192.png",
       };
       notifications(userData.notif_token, bodies);
       res.json({
