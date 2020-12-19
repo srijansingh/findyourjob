@@ -542,7 +542,7 @@ exports.getUserAddressById = (req, res, next) => {
 
 exports.deleteAddressById = (req, res, next) => {
   const id = req.params.id;
-  Cart.remove({ _id: `${id}` })
+  Address.findByIdAndRemove(id)
     .then((result) => {
       res.status(200).json({
         data: "Removed successfully",
