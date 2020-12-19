@@ -539,3 +539,19 @@ exports.getUserAddressById = (req, res, next) => {
       });
     });
 };
+
+exports.deleteAddressById = (req, res, next) => {
+  const id = req.params.id;
+  Cart.remove({ _id: `${id}` })
+    .then((result) => {
+      res.status(200).json({
+        data: "Removed successfully",
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.json({
+        error: err,
+      });
+    });
+};

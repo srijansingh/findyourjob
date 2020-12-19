@@ -20,6 +20,7 @@ const {
   getOrdersByUserIdAndUserid,
   createAddress,
   getUserAddressById,
+  deleteAddressById,
 } = require("../controller/client");
 
 const Customer = require("../model/customer");
@@ -94,6 +95,7 @@ router.post("/search", getSearchResult);
 
 router.post("/address", createAddress);
 router.get("/address/:userid", getUserAddressById);
+router.delete("/address/:id", deleteAddressById);
 
 router.post("/notification", notification);
 module.exports = router;
