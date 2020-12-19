@@ -420,11 +420,7 @@ exports.getOrdersByUserIdAndUserid = (req, res, next) => {
 exports.updateuser = (req, res, next) => {
   const _id = req.params.user_id;
   const name = req.body.name;
-  const email = req.body.email;
-  const address = req.body.address;
-  const pincode = req.body.pincode;
-  const city = req.body.city;
-  const state = req.body.state;
+  const mobile = req.body.mobile;
 
   Customer.findById(_id)
     .then((result) => {
@@ -433,13 +429,9 @@ exports.updateuser = (req, res, next) => {
         error.statusCode = 404;
         throw error;
       }
-      result.email = email;
-      result.address = address;
-      result.pincode = pincode;
-      result.city = city;
-      result.state = state;
-      result.name = name;
 
+      result.name = name;
+      result.mobile = mobile;
       return result.save();
     })
     .then((result) => {

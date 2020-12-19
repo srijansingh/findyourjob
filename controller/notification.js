@@ -7,7 +7,7 @@ admin.initializeApp({
 
 exports.notification = (req, res, next) => {
   var token =
-    "dS5H4BYXS5WtoYVcIYNIyk:APA91bHukIRJUvCz0X5vmtCJm7l0qrG6Q7-RAp3jpVD95V-7xi4hfqcXKzi6LmFl5wUBwdgGz3CzYGC0uBu_NnXJCel0K23nsGOiodv0ufIXQjhQBIjG47v1RU6zGEbX4Kz8AOAxXcVl";
+    "f4bTVt3FTPy-nAJv23W559:APA91bFfkyC7YKLpgSJrXHxSQtslz3g0CMzeFc7iuw6Sfebk4DR8C79xnzrGpNY73nOxRZoSfzAybLI0nyqSRj7Sw0qb1kSzxwJNkLXZ-sKmyy6MLFdFmdDpOeM7uw790PxAYxtvRgDo";
 
   var payload = {
     notification: {
